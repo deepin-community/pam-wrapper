@@ -1,0 +1,56 @@
+From: Timo Aaltonen <tjaalton@debian.org>
+Date: Thu, 23 Jan 2020 14:52:52 +0100
+Subject: remove SONAME in libpam_wrapper
+
+libpam_wrapper is a preloadable library.
+We do not support directly linking to it, so it doesn't need the SONAME.
+Let's remove it.
+
+We keep the soname in libpamtest instead since the python modules depend on
+it.
+
+Signed-off-by: Marco Trevisan (Treviño) <mail@3v1n0.net>
+
+---
+ CMakeLists.txt     | 4 ++--
+ src/CMakeLists.txt | 9 +++------
+ 2 files changed, 5 insertions(+), 8 deletions(-)
+
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -26,8 +26,8 @@ set(APPLICATION_NAME ${PROJECT_NAME})
+ set(LIBRARY_VERSION_MAJOR 0)
+ set(LIBRARY_VERSION_MINOR 0)
+ set(LIBRARY_VERSION_PATCH 6)
+-set(LIBRARY_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
+-set(LIBRARY_SOVERSION ${LIBRARY_VERSION_MAJOR})
++#set(LIBRARY_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
++#set(LIBRARY_SOVERSION ${LIBRARY_VERSION_MAJOR})
+ 
+ set(PAMTEST_LIBRARY_VERSION_MAJOR 0)
+ set(PAMTEST_LIBRARY_VERSION_MINOR 0)
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -25,10 +25,7 @@ target_compile_options(pam_wrapper
+ set_target_properties(
+   pam_wrapper
+     PROPERTIES
+-      VERSION
+-        ${LIBRARY_VERSION}
+-      SOVERSION
+-        ${LIBRARY_SOVERSION}
++      NO_SONAME ON
+ )
+ 
+ install(TARGETS pam_wrapper
+@@ -64,8 +61,8 @@ target_compile_options(pamtest
+ 
+ set_target_properties(pamtest
+     PROPERTIES
+-        VERSION ${LIBRARY_VERSION}
+-        SOVERSION ${LIBRARY_SOVERSION})
++        VERSION ${PAMTEST_LIBRARY_VERSION}
++        SOVERSION ${PAMTEST_LIBRARY_VERSION})
+ 
+ install(TARGETS pamtest
+         EXPORT pamtest-config

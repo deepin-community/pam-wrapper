@@ -1,0 +1,1 @@
+auth		required	@PAM_MATRIX_PATH@	passdb=@PASSDB_RO_PATH@	verbose		echo

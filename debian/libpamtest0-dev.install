@@ -1,0 +1,4 @@
+usr/include
+usr/lib/*/cmake/pamtest
+usr/lib/*/libpamtest.so
+usr/lib/*/pkgconfig/libpamtest.pc

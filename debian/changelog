@@ -1,0 +1,66 @@
+pam-wrapper (1.1.3-deepin1) unstable; urgency=medium
+
+  * Rebuild
+
+ -- Deepin Packages Builder <packages@deepin.org>  Mon, 05 Dec 2022 09:04:04 +0800
+
+pam-wrapper (1.1.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * patches: Drop patches from previous upload, upstream.
+  * no-soname.diff: Refreshed.
+  * libpamtest0-dev.install: Updated.
+  * Migrate to debhelper-compat, bump to 12.
+  * control: Bump policy to 4.5.0.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 20 Oct 2020 12:24:49 +0300
+
+pam-wrapper (1.0.7-4) unstable; urgency=medium
+
+  [ Marco Trevisan (Treviño) ]
+  * d/p/modules-Add-pam_chatty-module.patch,
+    d/p/python-Fix-crash-when-the-PAM-module-outputs-too-much-dat.patch,
+    d/p/tests-Add-service-file-for-chatty-module.patch,
+    d/p/tests-Add-test-for-verbose-PAM-modules.patch:
+    - Import patchset to fix and test a crash when PAM module outputs
+      too much data
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 24 Jan 2020 17:47:19 +0200
+
+pam-wrapper (1.0.7-3) unstable; urgency=medium
+
+  [ Marco Trevisan (Treviño) ]
+  * d/p/no-soname.diff: Only remove soname on wrapper (Closes: #949671)
+  * Split libpam-wrapper package and libpamtest library
+  * debian/control: build-depend on dh-python
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 23 Jan 2020 21:06:36 +0200
+
+pam-wrapper (1.0.7-2) unstable; urgency=medium
+
+  * Drop python2 support. (Closes: #937235)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Sun, 08 Sep 2019 01:19:25 +0300
+
+pam-wrapper (1.0.7-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #910642)
+  * control: Add python bindings. (Closes: #898992)
+  * no-soname.diff: Refreshed.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 10 Oct 2018 17:54:28 +0300
+
+pam-wrapper (1.0.6-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #894793)
+  * Bump debhelper to 11, policy to 4.1.3, update VCS urls and
+    maintainer address to SSSD team.
+  * no-soname.diff: Refreshed.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 05 Apr 2018 11:30:52 +0300
+
+pam-wrapper (1.0.2-1) unstable; urgency=medium
+
+  * Initial release (Closes: #825486)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 27 May 2016 13:00:55 +0300

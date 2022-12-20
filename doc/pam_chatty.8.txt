@@ -1,0 +1,46 @@
+pam_chatty(8)
+===============
+:revdate: 2020-03-05
+
+NAME
+----
+
+pam_chatty - A PAM test module that generates PAM info and error messages.
+
+SYNOPSIS
+--------
+pam_chatty.so [...]
+
+DESCRIPTION
+-----------
+The *pam_chatty* module makes it easy to replicate the behaviour of PAM
+modules that generate a lot of output, in order to ensure that PAM clients
+react as expected.
+
+IMPORTANT
+---------
+pam_chatty is a *test tool*. It should be considered completely insecure
+and never used outside test environments! As you'll see when reading
+description of the options, many of them don't make any sense
+in the real world and were added just to make tests possible.
+
+The pam_chatty module generates a lot of PAM info and error output, when
+its authentication method is called, and then returns success.
+
+OPTIONS
+-------
+* *num_lines=NUMBER* - the number of lines of messages to output, for each
+one of the enabled types of messages selected.
+
+* *error* - whether to output error level messages.
+
+* *info* - whether to output info level messages.
+
+MODULE TYPES PROVIDED
+---------------------
+Only the *auth* module type is supported.
+
+EXAMPLE
+-------
+[source,bash]
+auth            required        pam_chatty.so num_lines=16 info error

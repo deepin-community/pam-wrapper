@@ -1,0 +1,26 @@
+# For help take a look at:
+# http://www.cmake.org/Wiki/CMake:CPackConfiguration
+
+### general settings
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The pam_wrapper")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.md")
+set(CPACK_PACKAGE_VENDOR "Samba Team")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+
+
+### versions
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+
+
+### source generator
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_SOURCE_IGNORE_FILES "~$;[.]swp$;/[.]svn/;/[.]git/;.gitignore;/build*;/obj*;tags;cscope.*;*.pyc")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "pam_wrapper")
+
+set(CPACK_PACKAGE_FILE_NAME ${PROJECT_NAME}-${CPACK_PACKAGE_VERSION})
+
+include(CPack)

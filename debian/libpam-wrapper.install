@@ -1,0 +1,5 @@
+usr/lib/*/cmake/pam_wrapper
+usr/lib/*/libpam_wrapper.so
+usr/lib/*/pam_wrapper
+usr/lib/*/pkgconfig/pam_wrapper.pc
+usr/share/man

@@ -1,0 +1,1 @@
+auth		required	@PAM_CHATTY_PATH@ num_lines=16 info error

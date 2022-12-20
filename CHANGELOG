@@ -1,0 +1,60 @@
+ChangeLog
+==========
+
+version 1.1.3 (released 2020-03-26)
+  * Fixed paths in pkgconfig and cmake config files
+
+version 1.1.2 (released 2020-03-24)
+  * Fix manpage installation
+
+version 1.1.1 (released 2020-03-24)
+  * Fixed pam_wrapper on Ubuntu
+  * Improved PAM detection for openSUSE Tumbleweed
+
+version 1.1.0 (released 2020-03-20)
+  * Added support for pam_start_confdir()
+  * Added pam_chatty module
+  * Added gitlab CI support
+  * Fixed crash when a PAM module outputs too much data
+
+version 1.0.7 (released 2018-09-26)
+  * Added support for running with AddressSanitizer
+  * Added logging for pam_set_items module
+  * Fixed building python modules
+  * Fixed pam conversation in libpamtest
+
+version 1.0.6 (released 2018-03-27)
+  * Improved file copy
+  * Fixed build warnings
+
+version 1.0.5 (released 2018-02-22)
+  * Added support to build python2 and python3 module at the same time
+  * Improved pam test directory creating
+  * Fixed python 2.6 compatibilty
+  * Fixed some build issues on FreeBSD
+
+version 1.0.4 (released 2017-05-15)
+  * Fix build on OpenBSD
+  * Fix a resource leak
+
+version 1.0.3 (released 2017-04-06)
+  * Fixed some build issues with strict compiler flags
+  * Logging to syslog is disabled by default
+
+version 1.0.2 (released 2016-05-24)
+  * Fixed pam_wrapper on some BSDs
+  * Fixed simple conversation in libpamtest
+
+version 1.0.1 (released 2016-01-18)
+  * Fixed issue with audit_open() and sshd
+  * Fixed several issues found by Coverity
+  * Fixed python linking issues
+
+version 1.0.0 (released 2016-01-14)
+  * Initial release
+    - pam_wrapper
+    - libpamtest
+    - pypamtest
+    - pam_matrix
+    - pam_get_items
+    - pam_set_items

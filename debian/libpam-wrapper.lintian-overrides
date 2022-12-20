@@ -1,0 +1,2 @@
+libpam-wrapper: sharedobject-in-library-directory-missing-soname usr/lib/*/libpam_wrapper.so
+libpam-wrapper: sharedobject-in-library-directory-missing-soname usr/lib/*/libpamtest.so
