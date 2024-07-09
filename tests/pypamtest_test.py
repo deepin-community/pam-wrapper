@@ -20,7 +20,7 @@ class PyPamTestImport(unittest.TestCase):
         if sys.hexversion >= 0x3000000:
             self.modpath = os.path.join(os.getcwd(), "../src/python/python3")
         else:
-            self.modpath = os.path.join(os.getcwd(), "../src/python/python2")
+            self.assertTrue(False)
         self.system_path = sys.path[:]
         sys.path = [ self.modpath ]
 
@@ -142,12 +142,12 @@ class PyPamTestRunTest(unittest.TestCase):
         neo_password = "wrong_secret"
         tc = pypamtest.TestCase(pypamtest.PAMTEST_AUTHENTICATE)
 
-        self.assertRaisesRegexp(pypamtest.PamTestError,
-                                "Error \[2\]: Test case { pam_operation \[0\] "
-                                "expected_rv \[0\] flags \[0\] } "
-                                "returned \[\d\]",
-                                pypamtest.run_pamtest,
-                                "neo", "matrix_py", [tc], [ neo_password ])
+        self.assertRaisesRegex(pypamtest.PamTestError,
+                               "Error \[2\]: Test case { pam_operation \[0\] "
+                               "expected_rv \[0\] flags \[0\] } "
+                               "returned \[\d\]",
+                               pypamtest.run_pamtest,
+                               "neo", "matrix_py", [tc], [ neo_password ])
 
 if __name__ == "__main__":
     error = 0

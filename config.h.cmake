@@ -21,7 +21,6 @@
 #cmakedefine HAVE_PAM_VSYSLOG 1
 #cmakedefine HAVE_PAM_SYSLOG 1
 #cmakedefine HAVE_PAM_START_CONFDIR 1
-#cmakedefine HAVE_PAM_MODUTIL_SEARCH_KEY 1
 
 #cmakedefine HAVE_PAM_VPROMPT_CONST 1
 #cmakedefine HAVE_PAM_PROMPT_CONST 1
@@ -40,6 +39,8 @@
 #cmakedefine HAVE_GCC_ATOMIC_BUILTINS 1
 #cmakedefine HAVE_CONSTRUCTOR_ATTRIBUTE 1
 #cmakedefine HAVE_DESTRUCTOR_ATTRIBUTE 1
+#cmakedefine HAVE_PRAGMA_INIT 1
+#cmakedefine HAVE_PRAGMA_FINI 1
 #cmakedefine HAVE_FUNCTION_ATTRIBUTE_FORMAT 1
 
 /*************************** ENDIAN *****************************/

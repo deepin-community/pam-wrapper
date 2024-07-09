@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+
+TMPDIR=$(mktemp -d)
+trap "rm -rf $TMPDIR" 0 INT QUIT ABRT PIPE TERM
+
+cp -a debian $TMPDIR
+cd $TMPDIR
+wrap-and-sort -satb
+diff -ur $OLDPWD/debian debian

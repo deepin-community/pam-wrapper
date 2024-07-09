@@ -32,7 +32,8 @@ if (UNIX)
     add_c_compiler_flag("-Wpointer-arith" SUPPORTED_COMPILER_FLAGS)
     add_c_compiler_flag("-Werror=pointer-arith" SUPPORTED_COMPILER_FLAGS)
     add_c_compiler_flag("-Wdeclaration-after-statement" SUPPORTED_COMPILER_FLAGS)
-    add_c_compiler_flag("-Werror=declaration-after-statement" SUPPORTED_COMPILER_FLAGS)
+    # Not compatible with Python 3.12 headers
+    #add_c_compiler_flag("-Werror=declaration-after-statement" SUPPORTED_COMPILER_FLAGS)
     add_c_compiler_flag("-Wreturn-type" SUPPORTED_COMPILER_FLAGS)
     add_c_compiler_flag("-Werror=return-type" SUPPORTED_COMPILER_FLAGS)
     add_c_compiler_flag("-Wuninitialized" SUPPORTED_COMPILER_FLAGS)
@@ -94,6 +95,9 @@ if (UNIX)
         add_c_compiler_flag("-Wno-error=deprecated-declarations" SUPPORTED_COMPILER_FLAGS)
         add_c_compiler_flag("-Wno-error=tautological-compare" SUPPORTED_COMPILER_FLAGS)
     endif()
+
+    # Needed by src/python/CMakeLists.txt
+    check_c_compiler_flag("-Wno-cast-function-type" WITH_WNO_CAST_FUNCTION_TYPE)
 
     # Unset CMAKE_REQUIRED_FLAGS
     unset(CMAKE_REQUIRED_FLAGS)

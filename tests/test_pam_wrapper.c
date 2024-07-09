@@ -267,7 +267,7 @@ static void test_pam_authenticate(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = trinity_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
@@ -287,7 +287,7 @@ static void test_pam_authenticate_null_password(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = empty_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
@@ -308,7 +308,7 @@ static void test_pam_authenticate_err(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = trinity_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
@@ -321,7 +321,7 @@ static void test_pam_acct(void **state)
 
 	(void) state;	/* unused */
 
-	perr = run_pamtest("matrix", "trinity", NULL, tests);
+	perr = run_pamtest("matrix", "trinity", NULL, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
@@ -334,14 +334,17 @@ static void test_pam_acct_err(void **state)
 
 	(void) state;	/* unused */
 
-	perr = run_pamtest("matrix", "neo", NULL, tests);
+	perr = run_pamtest("matrix", "neo", NULL, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
 static inline void free_vlist(char **vlist)
 {
-	free(vlist[0]);
-	free(vlist[1]);
+	size_t i;
+
+	for (i = 0; vlist[i] != NULL; i++) {
+		free(vlist[i]);
+	}
 	free(vlist);
 }
 
@@ -455,7 +458,7 @@ static void test_pam_session(void **state)
 
 	(void) state;	/* unused */
 
-	perr = run_pamtest("matrix", "trinity", NULL, tests);
+	perr = run_pamtest("matrix", "trinity", NULL, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 
 	v = string_in_list(tests[1].case_out.envlist, "HOMEDIR");
@@ -497,7 +500,7 @@ static void test_pam_chauthtok(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = trinity_new_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
@@ -520,7 +523,7 @@ static void test_pam_chauthtok_prelim_failed(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = trinity_new_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
@@ -543,7 +546,7 @@ static void test_pam_chauthtok_diff_passwords(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = trinity_new_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 }
 
@@ -559,7 +562,7 @@ static void test_pam_setcred(void **state)
 
 	(void) state;	/* unused */
 
-	perr = run_pamtest("matrix", "trinity", NULL, tests);
+	perr = run_pamtest("matrix", "trinity", NULL, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 
 	/* environment is clean before setcred */
@@ -770,7 +773,7 @@ static void test_pam_authenticate_db_opt(void **state)
 	conv_data.in_echo_on = trinity_authtoks;
 	conv_data.out_info = info_arr;
 
-	perr = run_pamtest("matrix_opt", "trinity_ro", &conv_data, tests);
+	perr = run_pamtest("matrix_opt", "trinity_ro", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 
 	assert_string_equal(auth_info_msg, "Authentication succeeded");
@@ -799,7 +802,7 @@ static void test_pam_authenticate_db_opt_err(void **state)
 	conv_data.in_echo_on = trinity_authtoks;
 	conv_data.out_err = err_arr;
 
-	perr = run_pamtest("matrix_opt", "trinity_ro", &conv_data, tests);
+	perr = run_pamtest("matrix_opt", "trinity_ro", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 
 	assert_string_equal(auth_err_msg, "Authentication failed");
@@ -900,7 +903,7 @@ static void test_get_set(void **state)
 	test_setenv("PAM_AUTHTOK_TYPE");
 #endif
 
-	perr = run_pamtest("pwrap_get_set", "trinity", NULL, tests);
+	perr = run_pamtest("pwrap_get_set", "trinity", NULL, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 
 	/* PAM_SERVICE is a special case, Linux's libpam lowercases it.
@@ -948,7 +951,7 @@ static void test_libpamtest_keepopen(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = trinity_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_equal(perr, PAMTEST_ERR_OK);
 
 	assert_non_null(tests[1].case_out.ph);
@@ -975,14 +978,15 @@ static void test_libpamtest_get_failed_test(void **state)
 	ZERO_STRUCT(conv_data);
 	conv_data.in_echo_off = trinity_authtoks;
 
-	perr = run_pamtest("matrix", "trinity", &conv_data, tests);
+	perr = run_pamtest("matrix", "trinity", &conv_data, tests, NULL);
 	assert_int_not_equal(perr, PAMTEST_ERR_OK);
 
 	failed_tc = pamtest_failed_case(tests);
 	assert_ptr_equal(failed_tc, &tests[0]);
 }
 
-int main(void) {
+int main(int argc, char *argv[])
+{
 	int rc;
 
 	const struct CMUnitTest init_tests[] = {
@@ -1052,6 +1056,10 @@ int main(void) {
 		cmocka_unit_test(test_libpamtest_strerror),
 		cmocka_unit_test(test_get_set),
 	};
+
+	if (argc == 2) {
+		cmocka_set_test_filter(argv[1]);
+	}
 
 	rc = cmocka_run_group_tests(init_tests, NULL, NULL);
 

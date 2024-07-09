@@ -1,3 +1,4 @@
+---
 variables:
   GIT_DEPTH: 3
   BUILD_IMAGES_PROJECT: cmocka/gitlab-build-images
@@ -6,18 +7,24 @@ variables:
   TUMBLEWEED_BUILD: buildenv-tumbleweed
   UBUNTU_BUILD: buildenv-ubuntu
 
+stages:
+  - build
+  - test
+  - analysis
+
 centos7/x86_64:
+  stage: test
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$CENTOS7_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake3
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON .. &&
-    make -j$(nproc) && ctest --output-on-failure
+    - mkdir -p obj && cd obj && cmake3
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON .. &&
+      make -j$(nproc) && ctest --output-on-failure
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -25,18 +32,19 @@ centos7/x86_64:
       - obj/
 
 fedora/x86_64:
+  stage: test
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$FEDORA_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_INSTALL_PREFIX=/tmp/local
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON .. &&
-    make -j$(nproc) && ctest --output-on-failure && make install
+    - mkdir -p obj && cd obj && cmake
+      -DCMAKE_INSTALL_PREFIX=/tmp/local
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON .. &&
+      make -j$(nproc) && ctest --output-on-failure && make install
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -44,17 +52,18 @@ fedora/x86_64:
       - obj/
 
 fedora/address-sanitizer:
+  stage: build
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$FEDORA_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_BUILD_TYPE=AddressSanitizer
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON .. &&
-    make -j$(nproc) && ctest --output-on-failure
+    - mkdir -p obj && cd obj && cmake
+      -DCMAKE_BUILD_TYPE=AddressSanitizer
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON .. &&
+      make -j$(nproc) && ctest --output-on-failure
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -62,17 +71,18 @@ fedora/address-sanitizer:
       - obj/
 
 fedora/undefined-sanitizer:
+  stage: analysis
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$FEDORA_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_BUILD_TYPE=UndefinedSanitizer
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON ..
-    && make -j$(nproc) && ctest --output-on-failure
+    - mkdir -p obj && cd obj && cmake
+      -DCMAKE_BUILD_TYPE=UndefinedSanitizer
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON ..
+      && make -j$(nproc) && ctest --output-on-failure
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -80,32 +90,33 @@ fedora/undefined-sanitizer:
       - obj/
 
 fedora/csbuild:
+  stage: analysis
   variables:
     GIT_DEPTH: 20
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$FEDORA_BUILD
   script:
-  - |
-    if [[ -z "$CI_COMMIT_BEFORE_SHA" ]]; then
-        export CI_COMMIT_BEFORE_SHA=$(git rev-parse "${CI_COMMIT_SHA}~15")
-    fi
+    - |
+      if [[ -z "$CI_COMMIT_BEFORE_SHA" ]]; then
+          export CI_COMMIT_BEFORE_SHA=$(git rev-parse "${CI_COMMIT_SHA}~15")
+      fi
 
-    # Check if the commit exists in this branch
-    # This is not the case for a force push
-    git branch --contains $CI_COMMIT_BEFORE_SHA 2>/dev/null || export CI_COMMIT_BEFORE_SHA=$(git rev-parse "${CI_COMMIT_SHA}~15")
+      # Check if the commit exists in this branch
+      # This is not the case for a force push
+      git branch --contains $CI_COMMIT_BEFORE_SHA 2>/dev/null || export CI_COMMIT_BEFORE_SHA=$(git rev-parse "${CI_COMMIT_SHA}~15")
 
-    export CI_COMMIT_RANGE="$CI_COMMIT_BEFORE_SHA..$CI_COMMIT_SHA"
+      export CI_COMMIT_RANGE="$CI_COMMIT_BEFORE_SHA..$CI_COMMIT_SHA"
 
-  - csbuild
-    --build-dir=obj-csbuild
-    --prep-cmd="cmake -DCMAKE_BUILD_TYPE=Debug -DPICKY_DEVELOPER=ON -DUNIT_TESTING=ON @SRCDIR@"
-    --build-cmd "make clean && make -j$(nproc)"
-    --git-commit-range $CI_COMMIT_RANGE
-    --color
-    --print-current --print-fixed
+    - csbuild
+      --build-dir=obj-csbuild
+      --prep-cmd="cmake -DCMAKE_BUILD_TYPE=Debug -DPICKY_DEVELOPER=ON -DUNIT_TESTING=ON @SRCDIR@"
+      --build-cmd "make clean && make -j$(nproc)"
+      --git-commit-range $CI_COMMIT_RANGE
+      --color
+      --print-current --print-fixed
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -113,38 +124,43 @@ fedora/csbuild:
       - obj-csbuild/
 
 freebsd/x86_64:
+  stage: test
   image:
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON .. &&
-    make && ctest --output-on-failure
+    - mkdir -p obj-freebsd && cd obj-freebsd && cmake
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON .. &&
+      make && ctest --output-on-failure
   tags:
-  - freebsd
+    - freebsd
   except:
-  - tags
+    - tags
   only:
-  - branches@cwrap/pam_wrapper
-  - branches@cryptomilk/pam_wrapper
+    - branches@cwrap/pam_wrapper
+    - branches@cryptomilk/pam_wrapper
   artifacts:
     expire_in: 1 week
     when: on_failure
     paths:
-      - obj/
+      - obj-freebsd/
+  # pam_wrapper stopped to work with the latest OpenPAM version, this is a
+  # bigger effort to investigate.
+  allow_failure: true
 
 tumbleweed/x86_64/gcc:
+  stage: test
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$TUMBLEWEED_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON .. &&
-    make -j$(nproc) && ctest --output-on-failure
+    - mkdir -p obj && cd obj && cmake
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON .. &&
+      make -j$(nproc) && ctest --output-on-failure
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -152,18 +168,19 @@ tumbleweed/x86_64/gcc:
       - obj/
 
 tumbleweed/x86_64/gcc7:
+  stage: test
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$TUMBLEWEED_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON .. &&
-    make -j$(nproc) && ctest --output-on-failure
+    - mkdir -p obj && cd obj && cmake
+      -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_CXX_COMPILER=g++-7
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON .. &&
+      make -j$(nproc) && ctest --output-on-failure
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -173,18 +190,19 @@ tumbleweed/x86_64/gcc7:
 # PICKY_DEVELOPER IS OFF
 # => https://github.com/python/cpython/pull/19133
 tumbleweed/x86_64/clang:
+  stage: test
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$TUMBLEWEED_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
-    -DPICKY_DEVELOPER=OFF
-    -DUNIT_TESTING=ON .. &&
-    make -j$(nproc) && ctest --output-on-failure
+    - mkdir -p obj && cd obj && cmake
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+      -DPICKY_DEVELOPER=OFF
+      -DUNIT_TESTING=ON .. &&
+      make -j$(nproc) && ctest --output-on-failure
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -194,20 +212,21 @@ tumbleweed/x86_64/clang:
 # PICKY_DEVELOPER IS OFF
 # => https://github.com/python/cpython/pull/19133
 tumbleweed/static-analysis:
+  stage: analysis
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$TUMBLEWEED_BUILD
   script:
-  - export CCC_CC=clang
-  - export CCC_CXX=clang++
-  - mkdir -p obj && cd obj && scan-build cmake
-    -DCMAKE_BUILD_TYPE=Debug
-    -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
-    -DPICKY_DEVELOPER=OFF
-    -DUNIT_TESTING=ON .. &&
-    scan-build --status-bugs -o scan make -j$(nproc)
+    - export CCC_CC=clang
+    - export CCC_CXX=clang++
+    - mkdir -p obj && cd obj && scan-build cmake
+      -DCMAKE_BUILD_TYPE=Debug
+      -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+      -DPICKY_DEVELOPER=OFF
+      -DUNIT_TESTING=ON .. &&
+      scan-build --status-bugs -o scan make -j$(nproc)
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure
@@ -215,17 +234,18 @@ tumbleweed/static-analysis:
       - obj/scan
 
 ubuntu/x86_64:
+  stage: test
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$UBUNTU_BUILD
   script:
-  - mkdir -p obj && cd obj && cmake
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DPICKY_DEVELOPER=ON
-    -DUNIT_TESTING=ON .. &&
-    make -j$(nproc) && ctest --output-on-failure
+    - mkdir -p obj && cd obj && cmake
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DPICKY_DEVELOPER=ON
+      -DUNIT_TESTING=ON .. &&
+      make -j$(nproc) && ctest --output-on-failure
   tags:
-  - shared
+    - shared
   except:
-  - tags
+    - tags
   artifacts:
     expire_in: 1 week
     when: on_failure

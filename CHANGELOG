@@ -1,6 +1,19 @@
 ChangeLog
 ==========
 
+version 1.1.5 (released 2023-08-08)
+  * Fixed building with Python 3.12
+  * Removed Python 2 support
+
+version 1.1.4 (released 2020-10-28)
+  * NOTE: pam_wrapper stopped working with the latest OpenPAM on FreeBSD 12.
+    Help is needed to add back support.
+  * Added support to retrieve the PAM environment from a python's
+    PAMTEST_GETENVLIST
+  * Added a new keyword parameter to reuse the PAM handle in libpamtest
+  * Fixed pid range
+  * Fixed constructor/destructor on AIX
+
 version 1.1.3 (released 2020-03-26)
   * Fixed paths in pkgconfig and cmake config files
 

@@ -1,23 +1,29 @@
 Source: pam-wrapper
 Priority: optional
-Maintainer: Debian SSSD Team <pkg-sssd-devel@lists.alioth.debian.org>
-Uploaders: Timo Aaltonen <tjaalton@debian.org>
-Build-Depends: debhelper-compat (=12),
+Maintainer: Debian SSSD Team <pkg-sssd-devel@alioth-lists.debian.net>
+Uploaders:
+ Timo Aaltonen <tjaalton@debian.org>,
+ Simon Josefsson <simon@josefsson.org>,
+Build-Depends:
  cmake,
+ debhelper-compat (= 13),
+ dh-python,
  libpam0g-dev,
  python3-dev,
- dh-python,
 X-Python3-Version: >= 3.6
-Standards-Version: 4.5.0
-Section: libs
+Standards-Version: 4.6.2
+Section: devel
 Homepage: https://cwrap.org/pam_wrapper.html
 Vcs-Git: https://salsa.debian.org/sssd-team/pam-wrapper.git
-Vcs-Browser: https://salsa.debian.org/sssd-team/pam-wrapper.git
+Vcs-Browser: https://salsa.debian.org/sssd-team/pam-wrapper
+Rules-Requires-Root: no
 
 Package: libpam-wrapper
 Architecture: any
 Multi-Arch: same
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: Tool to test PAM applications
  This component of cwrap allows you to test your PAM (Linux-PAM and OpenPAM)
  application.
@@ -28,15 +34,19 @@ Description: Tool to test PAM applications
 Package: libpamtest0
 Architecture: any
 Multi-Arch: same
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Replaces: libpam-wrapper (<< 1.0.7-3)
-Breaks: libpam-wrapper (<< 1.0.7-3)
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Replaces:
+ libpam-wrapper (<< 1.0.7-3),
+Breaks:
+ libpam-wrapper (<< 1.0.7-3),
 Description: Library to test PAM modules
  This component of cwrap allows you to test your PAM (Linux-PAM and OpenPAM)
  module.
  .
  For testing a PAM module you can use the pamtest library, which simplifies
- testing of modules. You can combine it with the cmocka  unit testing framework
+ testing of modules. You can combine it with the cmocka unit testing framework
  or you can use the provided Python bindings to write tests for your module in
  Python.
  .
@@ -45,16 +55,19 @@ Description: Library to test PAM modules
 Package: libpamtest0-dev
 Architecture: any
 Multi-Arch: same
-Depends: ${misc:Depends},
-  libpamtest0 (= ${binary:Version}),
-Replaces: libpam-wrapper (<< 1.0.7-3)
-Breaks: libpam-wrapper (<< 1.0.7-3)
-Description: Library to test PAM modules
+Depends:
+ libpamtest0 (= ${binary:Version}),
+ ${misc:Depends},
+Replaces:
+ libpam-wrapper (<< 1.0.7-3),
+Breaks:
+ libpam-wrapper (<< 1.0.7-3),
+Description: Development files for library to test PAM modules
  This component of cwrap allows you to test your PAM (Linux-PAM and OpenPAM)
  module.
  .
  For testing a PAM module you can use the pamtest library, which simplifies
- testing of modules. You can combine it with the cmocka  unit testing framework
+ testing of modules. You can combine it with the cmocka unit testing framework
  or you can use the provided Python bindings to write tests for your module in
  Python.
  .
@@ -63,7 +76,10 @@ Description: Library to test PAM modules
 Package: python3-pypamtest
 Architecture: any
 Multi-Arch: same
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends},
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ ${shlibs:Depends},
 Description: Tool to test PAM applications and PAM modules -- Python3 bindings
  This component of cwrap allows you to either test your PAM (Linux-PAM
  and OpenPAM) application or module.
