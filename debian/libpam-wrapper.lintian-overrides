@@ -1,2 +1,3 @@
-libpam-wrapper: sharedobject-in-library-directory-missing-soname usr/lib/*/libpam_wrapper.so
-libpam-wrapper: sharedobject-in-library-directory-missing-soname usr/lib/*/libpamtest.so
+# libpam_wrapper is a preloadable library.
+# We do not support directly linking to it, so it doesn't need the SONAME.
+libpam-wrapper: sharedobject-in-library-directory-missing-soname [usr/lib/*/libpam_wrapper.so]

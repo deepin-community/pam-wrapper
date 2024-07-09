@@ -1,0 +1,4 @@
+Name: pam_wrapper
+Bug-Database: https://bugzilla.samba.org/enter_bug.cgi?product=cwrap
+Repository-Browse: https://git.samba.org/?p=pam_wrapper.git
+Repository: https://git.samba.org/pam_wrapper.git

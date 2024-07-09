@@ -1,5 +1,9 @@
 project(tests C)
 
+if (TARGET cmocka::cmocka)
+    set(CMOCKA_LIBRARY cmocka::cmocka)
+endif()
+
 set(PAM_MATRIX_PATH "${CMAKE_BINARY_DIR}/src/modules/pam_matrix.so")
 
 configure_file(services/matrix.in ${CMAKE_CURRENT_BINARY_DIR}/services/matrix @ONLY)
@@ -90,15 +94,6 @@ if (CMAKE_BUILD_TYPE)
 endif()
 
 if (RUN_PYTHON_TESTS)
-    if (PYTHON2_EXECUTABLE)
-        add_test(NAME
-                    py2pamtest_test
-                 COMMAND
-                    ${PYTHON2_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/pypamtest_test.py)
-
-        add_cmocka_test_environment(py2pamtest_test)
-    endif()
-
     if (PYTHON3_EXECUTABLE)
         add_test(NAME
                     py3pamtest_test

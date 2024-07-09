@@ -1,9 +1,15 @@
 #!/usr/bin/make -f
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 %:
 	dh $@ --with python3 --builddirectory=build/
+
+override_dh_clean:
+	dh_clean
+	rm -f compile_commands.json
 
 override_dh_auto_configure:
 	dh_auto_configure -- \

@@ -1,8 +1,44 @@
-pam-wrapper (1.1.3-deepin1) unstable; urgency=medium
+pam-wrapper (1.1.5-1) unstable; urgency=medium
 
-  * Rebuild
+  * New upstream release.
+  * Use Section:devel for consistency with other cwrap projects.
 
- -- Deepin Packages Builder <packages@deepin.org>  Mon, 05 Dec 2022 09:04:04 +0800
+ -- Simon Josefsson <simon@josefsson.org>  Fri, 18 Aug 2023 13:53:22 +0200
+
+pam-wrapper (1.1.4-3) unstable; urgency=medium
+
+  * Fix --twice builds.  Closes: #1048879.
+  * wrap-and-sort -satb.
+  * tests: Add wrap-and-sort.
+
+ -- Simon Josefsson <simon@josefsson.org>  Wed, 16 Aug 2023 11:51:21 +0200
+
+pam-wrapper (1.1.4-2) unstable; urgency=medium
+
+  * control: Use new pkg-sssd email address.
+  * control: Add myself as Uploaders.
+  * control: Standards-Version 4.6.2.
+  * control: Rules-Requires-Root: no.
+  * upstream/metadata: Add.
+  * upstream/signing-key.asc: Add.
+  * watch: Add pgpsigurlmangle.  Use @ANY_VERSION@@ARCHIVE_EXT@.
+  * copyright: Add myself for debian/*, silencing
+    lintian warning update-debian-copyright.
+  * Build with hardening=+all.
+  * control: Fix Vcs-Browser URL.
+  * Bump debhelper-compat to 13.
+  * libpamtest0-dev: Improve Description.
+  * control: Fix spurious white space in Description fields.
+  * lintian-overrides: Fix syntax.  Drop unused libpamtest.so override.
+
+ -- Simon Josefsson <simon@josefsson.org>  Sun, 06 Aug 2023 09:26:33 +0200
+
+pam-wrapper (1.1.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * no-soname.diff: Refreshed.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 17 Nov 2021 20:47:17 +0200
 
 pam-wrapper (1.1.3-1) unstable; urgency=medium
 

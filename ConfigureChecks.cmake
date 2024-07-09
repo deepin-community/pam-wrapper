@@ -77,9 +77,6 @@ set(CMAKE_REQUIRED_LIBRARIES ${PAM_LIBRARY})
 check_function_exists(pam_syslog HAVE_PAM_SYSLOG)
 check_function_exists(pam_vsyslog HAVE_PAM_VSYSLOG)
 check_function_exists(pam_start_confdir HAVE_PAM_START_CONFDIR)
-# This is available in current PAM master and will be used as a workaround
-# till pam_start_confdir() is available.
-check_function_exists(pam_modutil_search_key HAVE_PAM_MODUTIL_SEARCH_KEY)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
 # OPTIONS
@@ -139,6 +136,32 @@ void test_destructor_attribute(void)
 int main(void) {
     return 0;
 }" HAVE_DESTRUCTOR_ATTRIBUTE)
+
+check_c_source_compiles("
+#pragma init (test_constructor)
+void test_constructor(void);
+
+void test_constructor(void)
+{
+     return;
+}
+
+int main(void) {
+     return 0;
+}" HAVE_PRAGMA_INIT)
+
+check_c_source_compiles("
+#pragma fini (test_destructor)
+void test_destructor(void);
+
+void test_destructor(void)
+{
+    return;
+}
+
+int main(void) {
+    return 0;
+}" HAVE_PRAGMA_FINI)
 
 check_c_source_compiles("
 void log_fn(const char *format, ...) __attribute__ ((format (printf, 1, 2)));
