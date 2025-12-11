@@ -94,11 +94,12 @@ if (CMAKE_BUILD_TYPE)
 endif()
 
 if (RUN_PYTHON_TESTS)
-    if (PYTHON3_EXECUTABLE)
+    find_package(Python 3.10 COMPONENTS Interpreter)
+    if (Python_Interpreter_FOUND)
         add_test(NAME
                     py3pamtest_test
                  COMMAND
-                    ${PYTHON3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/pypamtest_test.py)
+                    ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/pypamtest_test.py)
 
         add_cmocka_test_environment(py3pamtest_test)
     endif()

@@ -14,7 +14,7 @@ License: BSD-3-clause
 
 Files: debian/*
 Copyright: 2016 Timo Aaltonen <tjaalton@debian.org>
-           2023 Simon Josefsson <simon@josefsson.org>
+           2023-2025 Simon Josefsson <simon@josefsson.org>
 License: GPL-3+
 
 License: GPL-3+

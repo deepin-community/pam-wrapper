@@ -143,9 +143,9 @@ class PyPamTestRunTest(unittest.TestCase):
         tc = pypamtest.TestCase(pypamtest.PAMTEST_AUTHENTICATE)
 
         self.assertRaisesRegex(pypamtest.PamTestError,
-                               "Error \[2\]: Test case { pam_operation \[0\] "
-                               "expected_rv \[0\] flags \[0\] } "
-                               "returned \[\d\]",
+                               r"Error \[2\]: Test case { pam_operation \[0\] "
+                               r"expected_rv \[0\] flags \[0\] } "
+                               r"returned \[\d\]",
                                pypamtest.run_pamtest,
                                "neo", "matrix_py", [tc], [ neo_password ])
 

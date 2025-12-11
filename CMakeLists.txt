@@ -1,5 +1,5 @@
 # Required cmake version
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.20.0)
 cmake_policy(SET CMP0048 NEW)
 
 # Specify search path for CMake modules to be loaded by include()
@@ -11,7 +11,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 include(DefineCMakeDefaults)
 include(DefineCompilerFlags)
 
-project(pam_wrapper VERSION 1.1.5 LANGUAGES C)
+project(pam_wrapper VERSION 1.1.8 LANGUAGES C)
 
 # global needed variables
 set(APPLICATION_NAME ${PROJECT_NAME})
@@ -25,7 +25,7 @@ set(APPLICATION_NAME ${PROJECT_NAME})
 #     Increment PATCH.
 set(LIBRARY_VERSION_MAJOR 0)
 set(LIBRARY_VERSION_MINOR 0)
-set(LIBRARY_VERSION_PATCH 8)
+set(LIBRARY_VERSION_PATCH 11)
 set(LIBRARY_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
 set(LIBRARY_SOVERSION ${LIBRARY_VERSION_MAJOR})
 

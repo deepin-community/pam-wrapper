@@ -1,3 +1,27 @@
+pam-wrapper (1.1.8-1) unstable; urgency=medium
+
+  * New upstream version 1.1.8
+  * Standards-Version: 4.7.2.
+  * Bump debian/* copyright years.
+  * Run wrap-and-sort -satbk.
+
+ -- Simon Josefsson <simon@josefsson.org>  Sun, 17 Aug 2025 13:05:51 +0200
+
+pam-wrapper (1.1.7-1) unstable; urgency=medium
+
+  [ Ben Hutchings ]
+  * debian/salsa-ci.yml: Add local CI configuration
+  * Replace wrap-and-sort autopkgtest with a CI job
+
+  [ Simon Josefsson ]
+  * New upstream release.
+  * Standards-Version: 4.7.0.
+  * Fix lintian update-debian-copyright.
+  * Build-Depends on python3-setuptools.  Closes: #1080694.
+  * Build python3-pypamtest reproducibly.
+
+ -- Simon Josefsson <simon@josefsson.org>  Mon, 23 Sep 2024 08:57:01 +0200
+
 pam-wrapper (1.1.5-1) unstable; urgency=medium
 
   * New upstream release.

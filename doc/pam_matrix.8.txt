@@ -14,7 +14,7 @@ pam_matrix.so [...]
 DESCRIPTION
 -----------
 Testing PAM application often requires to set up an authentication backend with
-as little effort as possible. The *pam_matrix* module allows to authenticate
+as little effort as possible. The *pam_matrix* module allows one to authenticate
 against a key-value text file, provided by an option or with an environment
 variable.
 
