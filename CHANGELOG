@@ -1,6 +1,18 @@
 ChangeLog
 ==========
 
+version 1.1.8 (released 2025-06-11)
+  * Fixed compilation warnings for clang 20
+  * Fixed some cmake issues
+
+version 1.1.7 (released 2023-07-23)
+  * Fix installation of python module
+
+version 1.1.6 (released 2023-07-23)
+  * Improve config dir creation if we have pam_start_confdir()
+  * Fixed PAM_WRAPPER_DISABLE_DEEPBIND
+  * Directly fail if we can't create the config dir
+
 version 1.1.5 (released 2023-08-08)
   * Fixed building with Python 3.12
   * Removed Python 2 support

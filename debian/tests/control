@@ -1,5 +1,0 @@
-Tests: wrap-and-sort
-Depends:
- devscripts,
- python3-debian,
-Restrictions: superficial

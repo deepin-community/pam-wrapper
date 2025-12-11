@@ -3,7 +3,7 @@ variables:
   GIT_DEPTH: 3
   BUILD_IMAGES_PROJECT: cmocka/gitlab-build-images
   FEDORA_BUILD: buildenv-fedora
-  CENTOS7_BUILD: buildenv-centos7
+  ROCKY8_BUILD: buildenv-rocky8
   TUMBLEWEED_BUILD: buildenv-tumbleweed
   UBUNTU_BUILD: buildenv-ubuntu
 
@@ -12,17 +12,15 @@ stages:
   - test
   - analysis
 
-centos7/x86_64:
+rocky8/x86_64:
   stage: test
-  image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$CENTOS7_BUILD
+  image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$ROCKY8_BUILD
   script:
-    - mkdir -p obj && cd obj && cmake3
+    - mkdir -p obj && cd obj && cmake
       -DCMAKE_BUILD_TYPE=RelWithDebInfo
       -DPICKY_DEVELOPER=ON
       -DUNIT_TESTING=ON .. &&
       make -j$(nproc) && ctest --output-on-failure
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -41,8 +39,6 @@ fedora/x86_64:
       -DPICKY_DEVELOPER=ON
       -DUNIT_TESTING=ON .. &&
       make -j$(nproc) && ctest --output-on-failure && make install
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -60,8 +56,6 @@ fedora/address-sanitizer:
       -DPICKY_DEVELOPER=ON
       -DUNIT_TESTING=ON .. &&
       make -j$(nproc) && ctest --output-on-failure
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -79,8 +73,6 @@ fedora/undefined-sanitizer:
       -DPICKY_DEVELOPER=ON
       -DUNIT_TESTING=ON ..
       && make -j$(nproc) && ctest --output-on-failure
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -113,8 +105,6 @@ fedora/csbuild:
       --git-commit-range $CI_COMMIT_RANGE
       --color
       --print-current --print-fixed
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -157,8 +147,6 @@ tumbleweed/x86_64/gcc:
       -DPICKY_DEVELOPER=ON
       -DUNIT_TESTING=ON .. &&
       make -j$(nproc) && ctest --output-on-failure
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -177,8 +165,6 @@ tumbleweed/x86_64/gcc7:
       -DPICKY_DEVELOPER=ON
       -DUNIT_TESTING=ON .. &&
       make -j$(nproc) && ctest --output-on-failure
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -199,8 +185,6 @@ tumbleweed/x86_64/clang:
       -DPICKY_DEVELOPER=OFF
       -DUNIT_TESTING=ON .. &&
       make -j$(nproc) && ctest --output-on-failure
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -223,8 +207,6 @@ tumbleweed/static-analysis:
       -DPICKY_DEVELOPER=OFF
       -DUNIT_TESTING=ON .. &&
       scan-build --status-bugs -o scan make -j$(nproc)
-  tags:
-    - shared
   except:
     - tags
   artifacts:
@@ -242,8 +224,6 @@ ubuntu/x86_64:
       -DPICKY_DEVELOPER=ON
       -DUNIT_TESTING=ON .. &&
       make -j$(nproc) && ctest --output-on-failure
-  tags:
-    - shared
   except:
     - tags
   artifacts:
